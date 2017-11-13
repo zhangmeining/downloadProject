@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <!--namespace="com.my.dao.BookDao"-->
+<mapper namespace="my">
+
+    <!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+    <!--获得所有图书 -->
+    <select id="getAllBooks"  resultType="com.my.domain.Book">
+        select id,title,price,publishDate from book
+    </select>
+    <!--获得图书对象通过编号 --><!--   parameterType="long"-->
+    <select id="getBookById" parameterType="long" resultType="com.my.domain.Book">
+        select id,title,price,publishDate from book where id=#{id}
+    </select>
+    <!-- 增加 -->
+    <insert id="insert" parameterType="com.my.domain.Book">
+        insert into book(title,price,publishDate) values(#{title},#{price},#{publishDate})
+   
+        </insert>
+    <!-- 删除 -->
+    <delete id="delete" parameterType="long">
+        delete from book where id=#{id}
+    </delete>
+    <!-- 更新 -->
+    <update id="update" parameterType="com.my.domain.Book">
+        update book set title=#{title},price=#{price},publishDate=#{publishDate}
+        where id=#{id}
+    </update>
+
+
+</mapper>
