@@ -1,3 +1,11 @@
+com\my\controller\PictureController.class
+com\my\controller\UserController.class
+com\my\controller\Test.class
+com\my\controller\JobController.class
+com\my\controller\TeacherManageController.class
+com\my\controller\TestController.class
+com\my\controller\CourseController.class
 com\my\resteasy\TestRestEasy.class
-com\my\controller\bookController.class
+com\my\controller\MaterialController.class
+com\my\controller\MaterialCatController.class
 com\my\resteasy\BookResteasy.class

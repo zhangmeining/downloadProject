@@ -23,16 +23,16 @@
     <artifactId>jr-my-export</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </dependency>
-  
-  
-  
-  
-  
      <dependency>
     <groupId>jd-jr</groupId>
     <artifactId>jr-my-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
      </dependency>
+      <!-- 文件上传组件 -->
+      <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+      </dependency>
 
 
   <!-- JSP相关 -->
@@ -52,6 +52,12 @@
 </dependency>
 
 
+
+      <!-- Jackson Json处理工具包 -->
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+      </dependency>
 
 <!-- resteasy  spring --> 
 <dependency>    

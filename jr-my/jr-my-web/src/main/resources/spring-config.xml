@@ -16,12 +16,14 @@
 			</list>
 		</property>
 	</bean>
+	<!-- 加载配置文件 -->
+	<!--<context:property-placeholder location="classpath:resource/*.properties" />-->
 
 
     <!--导入spring的配置文件-->
 	<import resource="classpath:spring/spring-*.xml" />
-	<!-- spring中扫描加载扫描包加载Service实现类 -->
-	<context:component-scan base-package="com.my.service,com.my.dao.impl"></context:component-scan>
+	<!-- spring中扫描加载扫描包加载主要就是扫描的dao，service -->
+	<context:component-scan base-package="com.my.service,com.my"></context:component-scan>
 	
 	
 	

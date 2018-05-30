@@ -1,2 +1,10 @@
-com\my\dao\impl\BookDaoImpl.class
-com\my\dao\BookDao.class
+com\my\dao\impl\MaterialDaoImpl.class
+com\my\dao\JobDao.class
+com\my\dao\CourseDao.class
+com\my\dao\impl\MaterialCatDaoImpl.class
+com\my\dao\impl\CourseDaoImpl.class
+com\my\dao\impl\UserDaoImpl.class
+com\my\dao\MaterialCatDao.class
+com\my\dao\MaterialDao.class
+com\my\dao\UserDao.class
+com\my\dao\impl\JobDaoImpl.class

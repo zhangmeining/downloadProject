@@ -1,1 +1,9 @@
+com\my\domain\Course.class
+com\my\domain\UserCourse.class
 com\my\domain\Book.class
+com\my\domain\JobAndScore.class
+com\my\domain\Userjob.class
+com\my\domain\Material.class
+com\my\domain\Job.class
+com\my\domain\MaterialCat.class
+com\my\domain\User.class

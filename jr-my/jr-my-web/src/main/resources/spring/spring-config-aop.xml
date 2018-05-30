@@ -21,7 +21,7 @@
     </bean>
     
       <!-- 注解方式配置事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
 
 
 
@@ -43,6 +43,11 @@
             <tx:method name="remove*" propagation="REQUIRED" />
             <tx:method name="repair" propagation="REQUIRED" />
             <tx:method name="delAndRepair" propagation="REQUIRED" />
+            <tx:method name="set*" propagation="REQUIRED" />
+            <tx:method name="join*" propagation="REQUIRED" />
+            <tx:method name="exit*" propagation="REQUIRED" />
+
+
 
             <tx:method name="get*" propagation="SUPPORTS" />
             <tx:method name="find*" propagation="SUPPORTS" />
@@ -53,10 +58,11 @@
             <tx:method name="*" propagation="SUPPORTS" />
         </tx:attributes>
     </tx:advice>
+
+
     <aop:config>  <!--切面的定义和设置-->
-        <aop:pointcut id="transactionPointcut" expression="execution(* com.my.service..*.*(..))"/>
-        <aop:advisor pointcut-ref="transactionPointcut"
-            advice-ref="transactionAdvice" />
+        <aop:advisor advice-ref="transactionAdvice"
+        pointcut ="execution(* com.my.service.*.*(..))"/>
     </aop:config>
 
 </beans>

@@ -7,10 +7,10 @@
 
     <util:properties id="dataSourceProps" location="classpath:props/important.properties"/>
     <bean id="dataSource" name="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="#{dataSourceProps['jdbc.driverClassName']}" />
-        <property name="url" value="#{dataSourceProps['jdbc.url']}" />
-        <property name="username" value="#{dataSourceProps['jdbc.username']}" />
-        <property name="password" value="#{dataSourceProps['jdbc.password']}" />
+        <property name="driverClassName" value="#{dataSourceProps['jdbc.driverClassName1']}" />
+        <property name="url" value="#{dataSourceProps['jdbc.url1']}" />
+        <property name="username" value="#{dataSourceProps['jdbc.username1']}" />
+        <property name="password" value="#{dataSourceProps['jdbc.password1']}" />
         <property name="maxActive" value="25" />
         <property name="maxIdle" value="5" />
         <property name="minIdle" value="5" />
@@ -40,8 +40,9 @@
     </bean>-->
     
     
-<!--原始的接口来实现有dao接口的实现类-->  
-    <bean id="bookDao" class="com.my.dao.impl.BookDaoImpl" init-method="initMethod" destroy-method="destroyMethod">  
+<!--原始的接口来实现有dao接口的实现类-->
+    <!--init-method="initMethod" destroy-method="destroyMethod"-->
+    <bean id="userDao" class="com.my.dao.impl.UserDaoImpl" >
        
        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>  
     </bean>

@@ -26,7 +26,7 @@
   <jackson-version>2.7.1</jackson-version>
   <resteasy-version>2.2.3.GA</resteasy-version>
   <httpcomp-version>4.2.5</httpcomp-version>
-  
+
   
   <!-- 4.1.3.RELEASE -->
   <spring.version>4.1.3.RELEASE</spring.version>
@@ -37,10 +37,53 @@
   <mybatis.spring.version>1.2.2</mybatis.spring.version>
   <mysql.version>5.1.32</mysql.version>
   <druid.version>1.0.9</druid.version>
+      <jackson.version>2.4.2</jackson.version>
+      <commons-lang3.version>3.3.2</commons-lang3.version>
+      <!--下面两个用于上传 图片时用-->
+      <commons-io.version>1.3.2</commons-io.version>
+      <commons-net.version>3.3</commons-net.version>
+      <commons-fileupload.version>1.3.1</commons-fileupload.version>
+      <!--时间操作组件，生成时间来用-->
+      <joda-time.version>2.5</joda-time.version>
   </properties>
   
  <dependencyManagement>
   <dependencies>
+      <!-- 时间操作组件 -->
+      <dependency>
+          <groupId>joda-time</groupId>
+          <artifactId>joda-time</artifactId>
+          <version>${joda-time.version}</version>
+      </dependency>
+      <!-- 文件上传组件 -->
+      <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+          <version>${commons-fileupload.version}</version>
+      </dependency>
+      <!-- Apache工具组件 -->
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>${commons-lang3.version}</version>
+      </dependency>
+      <!--下面两个用于上传图片时用-->
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-io</artifactId>
+          <version>${commons-io.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>commons-net</groupId>
+          <artifactId>commons-net</artifactId>
+          <version>${commons-net.version}</version>
+      </dependency>
+      <!-- Jackson Json处理工具包 -->
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>${jackson.version}</version>
+      </dependency>
   <!-- junit junit -->
   <dependency>
             <groupId>junit</groupId>
@@ -64,7 +107,8 @@
   <artifactId>logback-core</artifactId>
   <version>${logback-core.version}</version>
 </dependency>
-     <!-- Spring -->
+
+      <!-- Spring -->
      	<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -145,7 +189,7 @@
    
 <build>
 	<plugins>
-		<plugin>
+		<!--<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
 			<version>3.2</version>
@@ -154,22 +198,23 @@
 			<target>1.6</target>
 			<encoding>UTF-8</encoding>
 			</configuration>
-		</plugin>
+		</plugin>-->
 		
 		
 		<!-- 配置Tomcat插件 -->
-			<plugin>
+        <!-- 这个用来设置整个工程的根路径 -->
+        <!-- 根路径就是http://localhost:8080/ -->
+        <!-- <path>/Test</path> 根路径就是http://localhost:8080/Test-->
+			<!--<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
 					<port>8080</port>
-					<!-- 这个用来设置整个工程的根路径 -->
-					<!-- 根路径就是http://localhost:8080/ -->
-					<!-- <path>/Test</path> 根路径就是http://localhost:8080/Test-->
+
 					<path>/</path>    
 				</configuration>
-			</plugin>
+			</plugin>-->
 		
 	</plugins>
 </build> 
