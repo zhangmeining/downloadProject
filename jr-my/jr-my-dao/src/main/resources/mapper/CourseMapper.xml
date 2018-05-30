@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CourseDao" >
+  <resultMap id="BaseResultMap" type="com.my.domain.Course" >
+    <id column="courseId" property="courseId" jdbcType="BIGINT" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="courseCreator" property="courseCreator" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+
+
+
+
+
+
+
+
+  <!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+  <!--根据某个用户的id查到这个同学参加的所有课程 -->
+  <select id="getAllCourses"  parameterType="java.lang.String"  resultType="com.my.domain.Course">
+   select * from course where courseId in(select courseId from usercourse WHERE userId=#{courseUserId})
+  </select>
+
+<!--查找这个用户创建几个课程-->
+  <select id="getAllCoursesCreator"  parameterType="java.lang.String"  resultType="com.my.domain.Course">
+     SELECT * FROM course WHERE courseCreator=#{userId}
+  </select>
+
+
+<!--根据课程号来查找课程号-->
+  <select id="getCourse"  parameterType="java.lang.Long"  resultType="com.my.domain.Course">
+   select * from course where courseId=#{courseId}
+  </select>
+
+
+
+  <!--根据课程号来查找加入这个课程的所有学生-->
+  <select id="getAllUsersByCourseId"  parameterType="java.lang.Long"  resultType="com.my.domain.User">
+SELECT * FROM USER WHERE userId IN(SELECT userId FROM usercourse WHERE courseId=#{courseId})
+  </select>
+
+  <!-- 创建课程  创建课程后需要返回课程号
+  将插入数据的主键返回，返回到course对象中去
+  SELECT LAST_INSERT_ID() ：得到insert进去记录的主键值，只适合自增主键
+  keyProperty：将查到的的主键值设置到parameterType指定的对象的那个属性
+  order：SELECT LAST_INSERT_ID()执行顺序。相对于insert语句来说他的顺序
+  resultType：指定SELECT LAST_INSERT_ID()的结果类型
+  -->
+  <insert id="insertCourse" parameterType="com.my.domain.Course">
+     <selectKey keyProperty="courseId" order="AFTER" resultType="java.lang.Long">
+       SELECT LAST_INSERT_ID()
+     </selectKey>
+    INSERT INTO course(courseName ,courseCreator) VALUES(#{courseName},#{courseCreator})
+  </insert>
+
+
+  <!--根据courseId删除课程    这个应该属于创建者方面的操作 所以这边影响的是-->
+  <delete id="deleteCourse" parameterType="java.lang.Long">
+    delete from course  where courseId=#{courseId}
+  </delete>
+
+
+
+  <!--根据courseId退出课程  这个应该是学生端这边的操作-->
+  <delete id="exitCourse" parameterType="com.my.domain.UserCourse">
+    DELETE FROM usercourse WHERE courseId=#{courseId} AND userId=#{userId}
+  </delete>
+
+
+
+
+
+
+
+  <!--学生加入课程的操作-->
+  <insert id="joinCourse" parameterType="com.my.domain.UserCourse">
+    INSERT INTO usercourse(courseId ,userId) VALUES(#{courseId},#{userId})
+  </insert>
+
+
+
+  <!--学生加入课程的操作-->
+  <delete id="deleteUserCourse" parameterType="java.lang.Long">
+   DELETE FROM usercourse WHERE courseId=#{courseId}
+  </delete>
+
+
+
+  <!---->
+  <delete id="deleteUserJobByCourseIdAndUserId" parameterType="com.my.domain.Userjob">
+    DELETE FROM userjob WHERE jobId=#{jobId} AND jobUser=#{jobUser}
+  </delete>
+
+  <!-- 更新用户信息  完善时用-->
+  <!--<update id="update" parameterType="com.my.domain.User">
+    update user set userId=#{userId},headIconUrl=#{headIconUrl},userName=#{userName}，phoneNumber=#{phoneNumber}，password=#{password}，email=#{email}
+    where userId=#{userId}
+  </update>-->
+
+<!--获得某个课程的所有成员-->
+  <select id="getAllStuByCourseId"  parameterType="java.lang.Long"  resultType="com.my.domain.UserCourse">
+    SELECT * FROM usercourse WHERE courseId=#{courseId} AND userId IN(SELECT userId FROM USER WHERE isTeacher=0);
+  </select>
+
+
+
+  <!--获得某个课程的所有成员-->
+  <select id="getOneStuAllCourses"  parameterType="java.lang.String"  resultType="com.my.domain.UserCourse">
+     SELECT * FROM usercourse WHERE userId=#{userId}
+  </select>
+
+  <select id="selectCourseByCourseId"  parameterType="java.lang.Long"  resultType="com.my.domain.Course">
+    SELECT * FROM course WHERE courseId=#{courseId}
+  </select>
+
+
+
+  <select id="getCourseJobNumbers"  parameterType="java.lang.Long"  resultType="java.lang.Integer">
+     SELECT COUNT(DISTINCT numberName)FROM numberjob WHERE courseId=#{courseId};
+  </select>
+
+  <select id="getCourseNumberName"  parameterType="java.lang.Long"  resultType="java.lang.String">
+      SELECT  DISTINCT numberName FROM numberjob WHERE courseId=#{ourseId}
+  </select>
+
+
+  <select id="getCourseByCourseName"  parameterType="java.lang.String"  resultType="com.my.domain.Course">
+    select * from course where courseName=#{courseName}
+  </select>
+
+</mapper>

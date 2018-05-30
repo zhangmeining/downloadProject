@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="JobDao" >
+  <resultMap id="BaseResultMap" type="com.my.domain.Job" >
+    <id column="jobId" property="jobId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="illustration" property="illustration" jdbcType="VARCHAR" />
+    <result column="timeLimit" property="timeLimit" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="jobCreator" property="jobCreator" jdbcType="VARCHAR" />
+    <result column="courseId" property="courseId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="insertJob" parameterType="com.my.domain.Job" >
+    <selectKey keyProperty="jobId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into job (title,content, illustration,timeLimit,jobCreator,courseId)values (#{title},#{content},#{illustration},#{timeLimit},#{jobCreator},#{courseId})
+  </insert>
+
+
+
+
+
+
+<!--等创建作业后，就拿到这个作业的课程号，然后根据这个课程号，来讲加入中课程的同学都将有这份作业-->
+  <insert id="insertUserJob" parameterType="com.my.domain.Userjob" >
+    insert into userjob (jobId,jobUser,numberName,myAnswer)values (#{jobId},#{jobUser},#{numberName},#{myAnswer})
+  </insert>
+
+  <!--根据jobId删除课程-->
+  <delete id="deleteJob" parameterType="java.lang.Long">
+    delete from job  where jobId=#{jobId}
+  </delete>
+
+
+  <!--根据jobId删除用户课程表-->
+  <delete id="deleteUserJob" parameterType="java.lang.Long">
+    delete from userjob  where jobId=#{jobId}
+  </delete>
+
+
+  <select id="getJob" parameterType="java.lang.Long"  resultType="com.my.domain.Job">
+  select * from job where jobId=#{jobId}
+  </select>
+
+
+
+<!--根据课程号获得这个课程的所有作业-->
+  <select id="getALLJobByCourseId" parameterType="java.lang.Long"  resultType="com.my.domain.Job">
+    select * from job where courseId=#{courseId}
+  </select>
+
+
+  <!--根据courseId删除课程-->
+  <delete id="deleteJobByCourseId" parameterType="java.lang.Long">
+    delete from job  where courseId=#{courseId}
+  </delete>
+
+
+  <!--教师拉取题库的操作-->
+  <select id="getJobWithCourseAndQuestionTyp" parameterType="com.my.domain.Job"  resultType="com.my.domain.Job">
+      SELECT * FROM job WHERE courseId=#{courseId} AND questionType=#{questionType}
+  </select>
+
+
+  <!--根据课程号获得这个课程的所有作业-->
+  <update id="doJob" parameterType="com.my.domain.Userjob" >
+    UPDATE userjob SET myAnswer=#{myAnswer},score=#{score} WHERE jobId=#{jobId} and jobUser=#{jobUser}
+  </update>
+
+
+  <!--出题-->
+  <insert id="insertNumberJob" parameterType="com.my.domain.NumberJob" >
+    insert into numberjob (numberName,jobId,courseId)values (#{numberName},#{jobId},#{courseId})
+  </insert>
+
+
+
+  <!--根据courseId删除numberjob表-->
+  <delete id="deleteNumberJobByCourseId" parameterType="java.lang.Long">
+    delete from numberjob where courseId=#{courseId}
+  </delete>
+
+
+
+  <!--教师拉取题库的操作-->
+  <select id="getCurrentJobIdWithTea" parameterType="java.lang.Long"  resultType="com.my.domain.NumberJob">
+   select * from numberjob where numberName=(select numberName from numberjob where numberId =(SELECT numberId FROM numberjob WHERE courseId=#{courseId} ORDER BY numberId DESC LIMIT 1)) and courseId=#{courseId}
+  </select>
+
+  <select id="getJobByJobIdQuesType" parameterType="com.my.domain.Job"  resultType="com.my.domain.Job">
+     select * from job where jobId=#{jobId} and questionType=#{questionType}
+  </select>
+
+
+  <select id="getCurrentNumberName" parameterType="java.lang.Long"  resultType="java.lang.String">
+    SELECT numberName FROM numberjob WHERE numberId =(SELECT numberId FROM numberjob WHERE courseId=#{courseId} ORDER BY numberId DESC LIMIT 1)
+  </select>
+
+
+
+  <!--老师批阅作业，主要就是更新userjob表-->
+  <update id="teacherCorrect" parameterType="com.my.domain.Userjob" >
+    UPDATE userjob SET score=#{score} WHERE jobId=#{jobId} and jobUser=#{jobUser}
+  </update>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace="com.my.dao.BookDao"-->
+<mapper namespace="user">
+
+    <!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+    <!--获得所有图书 -->
+    <select id="getAllUsers"  resultType="com.my.domain.User">
+        select * from user
+    </select>
+
+    <!--得到所有的学生列表-->
+    <select id="getAllStudents"  resultType="com.my.domain.User">
+        SELECT * FROM USER WHERE isTeacher=0
+    </select>
+
+    <!--获得用户对象通过编号 --><!--   parameterType="long"-->
+    <select id="getUserById" parameterType="java.lang.String" resultType="com.my.domain.User">
+        select *  from user where userId=#{userId}
+    </select>
+    <!-- 注册用户 不是完善用户时 -->
+    <insert id="insert" parameterType="com.my.domain.User">
+    <!--  INSERT INTO USER(userId,password,created) VALUES(#{userId},#{password},#{created})-->
+INSERT INTO USER(userId,password,created,isAdministrator,isTeacher,sex,school,email,phoneNumber,userName) VALUES(#{userId},#{password},#{created},#{isAdministrator},#{isTeacher},#{sex},#{school},#{email},#{phoneNumber},#{userName})
+ </insert>
+  <!--根据userID 删除用户 -->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from user where userId=#{userId}
+    </delete>
+    <!-- 更新用户信息  完善时用-->
+    <update id="update" parameterType="com.my.domain.User">
+        update user set headIconUrl=#{headIconUrl},userName=#{userName},phoneNumber=#{phoneNumber},password=#{password},email=#{email},updated=#{updated}
+        where userId=#{userId}
+    </update>
+
+
+
+</mapper>
